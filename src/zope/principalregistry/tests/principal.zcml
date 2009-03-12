@@ -3,7 +3,7 @@
     i18n_domain="zope"
     >
 
-  <include package="zope.app.security" file="meta.zcml"/>
+  <include package="zope.principalregistry" file="meta.zcml"/>
 
   <principal
       id="zope.p1"

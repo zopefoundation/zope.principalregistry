@@ -17,9 +17,9 @@ $Id$
 """
 from zope import component
 from zope.component.zcml import utility
+from zope.authentication import interfaces
 
-from zope.app.security import principalregistry
-from zope.app.security import interfaces
+from zope.principalregistry import principalregistry
 
 
 def _principal():

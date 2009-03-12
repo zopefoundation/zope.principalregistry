@@ -1,0 +1,17 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <utility
+      provides="zope.authentication.interfaces.IAuthentication"
+      component=".principalregistry.principalRegistry"
+      />
+
+  <utility
+      component=".principalregistry.fallback_unauthenticated_principal"
+      provides="zope.authentication.interfaces.IFallbackUnauthenticatedPrincipal"
+      />
+
+  <class class=".principalregistry.Principal">
+    <allow interface="zope.security.interfaces.IPrincipal" />
+  </class>
+
+</configure>

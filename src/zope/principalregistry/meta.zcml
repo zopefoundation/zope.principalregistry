@@ -2,8 +2,6 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:meta="http://namespaces.zope.org/meta">
 
-  <include package="zope.security" file="meta.zcml" />
-
   <meta:directive 
       namespace="http://namespaces.zope.org/zope"
       name="principal" 

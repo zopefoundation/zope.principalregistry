@@ -17,29 +17,41 @@ $Id$
 """
 from zope.component import getUtility
 from zope.interface import implements
-from zope.container.contained import Contained, contained
-
 import zope.security.management
 from zope.security.interfaces import IGroupAwarePrincipal
 from zope.password.interfaces import IPasswordManager
 
-from zope.app.security import interfaces
+# XXX: THIS IS BAD
+from zope.container.contained import Contained, contained
+
+from zope.authentication.interfaces import (
+    IAuthentication,
+    PrincipalLookupError,
+    ILoginPassword,
+    ILogout,
+    IUnauthenticatedPrincipal,
+    IUnauthenticatedGroup,
+    IAuthenticatedGroup,
+    IEveryoneGroup,
+    )
 
 
 class DuplicateLogin(Exception):
     pass
 
+
 class DuplicateId(Exception):
     pass
 
+
 class PrincipalRegistry(object):
 
-    implements(interfaces.IAuthentication, interfaces.ILogout)
+    implements(IAuthentication, ILogout)
 
     # Methods implementing IAuthentication
 
     def authenticate(self, request):
-        a = interfaces.ILoginPassword(request, None)
+        a = ILoginPassword(request, None)
         if a is not None:
             login = a.getLogin()
             if login is not None:
@@ -68,7 +80,7 @@ class PrincipalRegistry(object):
 
     def unauthorized(self, id, request):
         if id is None or id is self.__defaultid:
-            a = interfaces.ILoginPassword(request)
+            a = ILoginPassword(request)
             a.needLogin(realm="Zope")
 
     def getPrincipal(self, id):
@@ -78,7 +90,7 @@ class PrincipalRegistry(object):
                 return self.__defaultObject
             if id == zope.security.management.system_user.id:
                 return zope.security.management.system_user
-            raise interfaces.PrincipalLookupError(id)
+            raise PrincipalLookupError(id)
         return r
 
     def getPrincipalByLogin(self, login):
@@ -179,7 +191,7 @@ class Principal(PrincipalBase):
 
 class UnauthenticatedPrincipal(PrincipalBase):
 
-    implements(interfaces.IUnauthenticatedPrincipal)
+    implements(IUnauthenticatedPrincipal)
 
 
 fallback_unauthenticated_principal = (
@@ -193,12 +205,12 @@ fallback_unauthenticated_principal = (
 
 class UnauthenticatedGroup(Group):
 
-    implements(interfaces.IUnauthenticatedGroup)
+    implements(IUnauthenticatedGroup)
 
 class AuthenticatedGroup(Group):
 
-    implements(interfaces.IAuthenticatedGroup)
+    implements(IAuthenticatedGroup)
 
 class EverybodyGroup(Group):
 
-    implements(interfaces.IEveryoneGroup)
+    implements(IEveryoneGroup)

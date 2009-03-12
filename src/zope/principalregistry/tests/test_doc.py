@@ -11,26 +11,35 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Test Login and Password
+"""Global Authentication Serive or Principal Registry Tests
 
 $Id$
 """
 import unittest
 from zope.testing import doctest
+from zope.component.testing import setUp as setUpComponent 
+from zope.component.testing import tearDown as tearDownComponent
+from zope.configuration import xmlconfig 
+from zope.password.testing import setUpPasswordManagers
 
-def test_bbb_imports():
-    """
-    Let's check that permission vocabularies that were moved to
-    zope.security are still importable from original place.
-    
-      >>> import zope.authentication.loginpassword as new
-      >>> import zope.app.security.loginpassword as old
-      >>> old.LoginPassword is new.LoginPassword
-      True
-    
-    """
+def setUp(test=None):
+    setUpComponent()
+    setUpPasswordManagers()
+
+def tearDown(test=None):
+    tearDownComponent()
+
+def zcml(s):
+    import zope.principalregistry
+    context = xmlconfig.file('meta.zcml', zope.principalregistry)
+    xmlconfig.string(s, context)
+
+def reset():
+    tearDown()
+    setUp()
 
 def test_suite():
     return unittest.TestSuite((
-        doctest.DocTestSuite(),
+        doctest.DocFileSuite('../README.txt',
+            setUp=setUp, globs={'zcml': zcml, 'reset': reset}),
         ))

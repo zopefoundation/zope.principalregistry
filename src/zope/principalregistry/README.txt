@@ -11,9 +11,7 @@ Authenticated Users
 There are principals that can log in:
 
     >>> zcml("""
-    ...    <configure
-    ...        xmlns="http://namespaces.zope.org/zope"
-    ...        >
+    ...    <configure xmlns="http://namespaces.zope.org/zope">
     ...
     ...      <principal
     ...         id="zope.manager"
@@ -28,7 +26,7 @@ There are principals that can log in:
     ... """)
 
     >>> import pprint
-    >>> from zope.app.security.principalregistry import principalRegistry
+    >>> from zope.principalregistry.principalregistry import principalRegistry
     >>> [p] = principalRegistry.getPrincipals('')
     >>> p.id, p.title, p.description, p.getLogin(), p.validate('123')
     ('zope.manager', u'Manager', u'System Manager', u'admin', True)
@@ -62,7 +60,7 @@ that other (more featureful) principal objects can be created for the
 same principal.
 
     >>> from zope import component
-    >>> from zope.app.security import interfaces
+    >>> from zope.authentication import interfaces
     >>> p = component.getUtility(interfaces.IUnauthenticatedPrincipal)
     >>> p.id, p.title, p.description
     ('zope.unknown', u'Anonymous user', u"A person we don't know")
@@ -287,8 +285,8 @@ There is also a system_user that is defined in the code.  It will be returned
 from the getPrincipal method of the registry.
 
     >>> import zope.security.management
-    >>> import zope.app.security.principalregistry
-    >>> auth = zope.app.security.principalregistry.PrincipalRegistry()
+    >>> import zope.principalregistry.principalregistry
+    >>> auth = zope.principalregistry.principalregistry.PrincipalRegistry()
     >>> system_user = auth.getPrincipal(u'zope.security.management.system_user')
     >>> system_user is zope.security.management.system_user
     True

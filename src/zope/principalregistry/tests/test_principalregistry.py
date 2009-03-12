@@ -16,17 +16,15 @@
 $Id$
 """
 import unittest
+from zope.authentication.basicauthadapter import BasicAuthAdapter
+from zope.authentication.interfaces import ILoginPassword, PrincipalLookupError
+from zope.component import provideAdapter
 from zope.interface import implements
-from zope.app.security.interfaces import PrincipalLookupError
+from zope.password.testing import setUpPasswordManagers
 from zope.publisher.interfaces.http import IHTTPCredentials
 
-from zope.app.testing import ztapi
-from zope.app.component.testing import PlacefulSetup
-
-from zope.app.security.basicauthadapter import BasicAuthAdapter
-from zope.app.security.interfaces import ILoginPassword
-from zope.app.security.principalregistry import PrincipalRegistry
-from zope.app.security.principalregistry import DuplicateLogin, DuplicateId
+from zope.principalregistry.principalregistry import PrincipalRegistry
+from zope.principalregistry.principalregistry import DuplicateLogin, DuplicateId
 
 
 class Request(object):
@@ -44,16 +42,12 @@ class Request(object):
         self.challenge = challenge
 
 
-class Test(PlacefulSetup, unittest.TestCase):
+class Test(unittest.TestCase):
 
     def setUp(self):
-        PlacefulSetup.setUp(self)
-
-        ztapi.provideAdapter(
-            IHTTPCredentials, ILoginPassword, BasicAuthAdapter)
-
+        setUpPasswordManagers()
+        provideAdapter(BasicAuthAdapter)
         self.reg = PrincipalRegistry()
-
         self.reg.definePrincipal('1', 'Tim Peters', 'Sir Tim Peters',
                                  'tim', '123')
         self.reg.definePrincipal('2', 'Jim Fulton', 'Sir Jim Fulton',
@@ -151,6 +145,3 @@ def test_suite():
     return unittest.TestSuite((
         unittest.makeSuite(Test),
         ))
-
-if __name__=='__main__':
-    unittest.main(defaultTest='test_suite')
