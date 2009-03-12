@@ -5,6 +5,14 @@ CHANGES
 3.7.0 (unreleased)
 ------------------
 
-Initial release. This package was splitted from zope.app.security as a part
-of the refactoring process to provide global principal registry without extra
-dependencies.
+- Remove ``zope.container`` dependency, as contained principals didn't make any
+  sense, since PrincipalRegistry never provided IContainer. Also, zope.container
+  pulls a number dependencies, that are not needed for non-persistent principal
+  registry (like, ZODB, for example).
+  
+  Set __name__ and __parent__ by hand to provide some backward-compatibility and
+  to save a pointer to registry from principal objects.
+
+- Initial release. This package was splitted from zope.app.security as a part
+  of the refactoring process to provide global principal registry without extra
+  dependencies.

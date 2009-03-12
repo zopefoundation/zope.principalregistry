@@ -21,9 +21,6 @@ import zope.security.management
 from zope.security.interfaces import IGroupAwarePrincipal
 from zope.password.interfaces import IPasswordManager
 
-# XXX: THIS IS BAD
-from zope.container.contained import Contained, contained
-
 from zope.authentication.interfaces import (
     IAuthentication,
     PrincipalLookupError,
@@ -72,7 +69,9 @@ class PrincipalRegistry(object):
         self.__defaultid = id
         if principal is None:
             principal = UnauthenticatedPrincipal(id, title, description)
-        self.__defaultObject = contained(principal, self, id)
+        principal.__name__ = id
+        principal.__parent__ = self
+        self.__defaultObject = principal
         return principal
 
     def unauthenticatedPrincipal(self):
@@ -123,7 +122,8 @@ class PrincipalRegistry(object):
 
         p = Principal(id, title, description,
             login, password, passwordManagerName)
-        p = contained(p, self, id)
+        p.__name__ = id
+        p.__parent__ = self
 
         self.__principalsByLogin[login] = p
         self.__principalsById[id] = p
@@ -154,7 +154,9 @@ else:
     addCleanUp(principalRegistry._clear)
     del addCleanUp
 
-class PrincipalBase(Contained):
+class PrincipalBase(object):
+
+    __name__ = __parent__ = None
 
     def __init__(self, id, title, description):
         self.id = id

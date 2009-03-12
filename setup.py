@@ -53,8 +53,6 @@ setup(name='zope.principalregistry',
                         'zope.interface',
                         'zope.password',
                         'zope.security',
-                        
-                        'zope.container', # XXX: THIS IS BAD
                         ],
       include_package_data = True,
       zip_safe = False,
