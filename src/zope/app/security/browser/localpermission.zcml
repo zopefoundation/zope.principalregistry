@@ -1,0 +1,29 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:addform
+     name="AddPermission.html"
+     schema="zope.security.interfaces.IPermission"
+     label="Add Permission"
+     content_factory="..permission.LocalPermission"
+     fields="title description"
+     permission="zope.Security"
+     />
+
+ <browser:addMenuItem
+     title="Permission"
+     description="A Security Permission"
+     class="..permission.LocalPermission"
+     permission="zope.ManageServices"
+     view="AddPermission.html"
+     />
+
+  <browser:editform
+      schema="zope.security.interfaces.IPermission"
+      label="Edit Permission"
+      name="edit.html"
+      permission="zope.ManageServices"
+      menu="zmi_views" title="Edit" />
+
+</configure>
