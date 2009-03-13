@@ -106,9 +106,7 @@ group, it will likewise have the group added to it:
 
     >>> reset()
     >>> zcml("""
-    ...    <configure
-    ...        xmlns="http://namespaces.zope.org/zope"
-    ...        >
+    ...    <configure xmlns="http://namespaces.zope.org/zope">
     ...
     ...      <unauthenticatedGroup
     ...         id="zope.unknowngroup2"
@@ -150,9 +148,7 @@ There is an authenticated group:
 
     >>> reset()
     >>> zcml("""
-    ...    <configure
-    ...        xmlns="http://namespaces.zope.org/zope"
-    ...        >
+    ...    <configure xmlns="http://namespaces.zope.org/zope">
     ...
     ...      <unauthenticatedPrincipal
     ...         id="zope.unknown3"
@@ -216,9 +212,7 @@ Finally, there is an everybody group:
 
     >>> reset()
     >>> zcml("""
-    ...    <configure
-    ...        xmlns="http://namespaces.zope.org/zope"
-    ...        >
+    ...    <configure xmlns="http://namespaces.zope.org/zope">
     ...
     ...      <unauthenticatedPrincipal
     ...         id="zope.unknown4"
