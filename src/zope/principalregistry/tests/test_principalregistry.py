@@ -16,37 +16,35 @@
 $Id$
 """
 import unittest
-from zope.authentication.basicauthadapter import BasicAuthAdapter
-from zope.authentication.interfaces import ILoginPassword, PrincipalLookupError
+from zope.authentication.interfaces import PrincipalLookupError
+from zope.authentication.loginpassword import LoginPassword
 from zope.component import provideAdapter
 from zope.interface import implements
 from zope.password.testing import setUpPasswordManagers
-from zope.publisher.interfaces.http import IHTTPCredentials
 
 from zope.principalregistry.principalregistry import PrincipalRegistry
 from zope.principalregistry.principalregistry import DuplicateLogin, DuplicateId
 
 
-class Request(object):
-
-    implements(IHTTPCredentials)
-
-    def __init__(self, lpw):
-        self.__lpw = lpw
-
-    def _authUserPW(self):
-        return self.__lpw
+class Request(LoginPassword):
 
     challenge = None
-    def unauthorized(self, challenge):
-        self.challenge = challenge
+
+    def __init__(self, lpw):
+        if lpw is not None:
+            l, p = lpw
+        else:
+            l = p = None
+        super(Request, self).__init__(l, p)
+
+    def needLogin(self, realm):
+        self.challenge = 'basic realm="%s"' % realm
 
 
 class Test(unittest.TestCase):
 
     def setUp(self):
         setUpPasswordManagers()
-        provideAdapter(BasicAuthAdapter)
         self.reg = PrincipalRegistry()
         self.reg.definePrincipal('1', 'Tim Peters', 'Sir Tim Peters',
                                  'tim', '123')
