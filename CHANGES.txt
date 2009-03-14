@@ -2,7 +2,12 @@
 CHANGES
 =======
 
-3.7.0 (unreleased)
+3.7.1 (unreleased)
+------------------
+
+- ...
+
+3.7.0 (2009-03-14)
 ------------------
 
 - Remove ``zope.container`` dependency, as contained principals didn't make any
