@@ -12,8 +12,6 @@
 #
 ##############################################################################
 """Global Authentication Utility or Principal Registry
-
-$Id$
 """
 from zope.component import getUtility
 from zope.interface import implements

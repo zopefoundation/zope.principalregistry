@@ -12,8 +12,6 @@
 #
 ##############################################################################
 """Tests for the principal registry
-
-$Id$
 """
 import unittest
 from zope.authentication.interfaces import PrincipalLookupError

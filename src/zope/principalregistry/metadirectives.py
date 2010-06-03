@@ -12,8 +12,6 @@
 #
 ##############################################################################
 """Schemas for directives that define principals and groups
-
-$Id$
 """
 from zope.interface import Interface
 from zope.schema import Id, TextLine

@@ -12,8 +12,6 @@
 #
 ##############################################################################
 """Directives for defining principals and groups
-
-$Id$
 """
 from zope import component
 from zope.component.zcml import utility

@@ -12,8 +12,6 @@
 #
 ##############################################################################
 """Tests for the principal registry ZCML directives
-
-$Id$
 """
 import unittest
 from zope.testing import doctest
