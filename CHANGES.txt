@@ -5,16 +5,20 @@ CHANGES
 3.7.1 (unreleased)
 ------------------
 
-- ...
+- Added test extra to declare test dependency on ``zope.component [test]``.
+
+- Using Python's ``doctest`` module instead of depreacted
+  ``zope.testing.doctest``.
+
 
 3.7.0 (2009-03-14)
 ------------------
 
-- Remove ``zope.container`` dependency, as contained principals didn't make any
+- Removed ``zope.container`` dependency, as contained principals didn't make any
   sense, since PrincipalRegistry never provided IContainer. Also, zope.container
   pulls a number dependencies, that are not needed for non-persistent principal
-  registry (like, ZODB, for example).
-  
+  registry (like, ZCML, for example).
+
   Set __name__ and __parent__ by hand to provide some backward-compatibility and
   to save a pointer to registry from principal objects.
 

@@ -52,6 +52,10 @@ setup(name='zope.principalregistry',
                         'zope.password',
                         'zope.security',
                         ],
+      extras_require=dict(
+          test=[
+              'zope.component [test]',
+              ]),
       include_package_data = True,
       zip_safe = False,
       )

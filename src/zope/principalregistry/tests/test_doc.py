@@ -13,12 +13,12 @@
 ##############################################################################
 """Tests for the principal registry ZCML directives
 """
-import unittest
-from zope.testing import doctest
-from zope.component.testing import setUp as setUpComponent 
+from zope.component.testing import setUp as setUpComponent
 from zope.component.testing import tearDown as tearDownComponent
-from zope.configuration import xmlconfig 
+from zope.configuration import xmlconfig
 from zope.password.testing import setUpPasswordManagers
+import doctest
+import unittest
 
 def setUp(test=None):
     setUpComponent()
