@@ -14,7 +14,7 @@
 """Global Authentication Utility or Principal Registry
 """
 from zope.component import getUtility
-from zope.interface import implements
+from zope.interface import implementer
 import zope.security.management
 from zope.security.interfaces import IGroupAwarePrincipal
 from zope.password.interfaces import IPasswordManager
@@ -39,9 +39,8 @@ class DuplicateId(Exception):
     pass
 
 
+@implementer(IAuthentication, ILogout)
 class PrincipalRegistry(object):
-
-    implements(IAuthentication, ILogout)
 
     # Methods implementing IAuthentication
 
@@ -167,9 +166,8 @@ class Group(PrincipalBase):
     def getLogin(self):
         return '' # to make registry search happy
 
+@implementer(IGroupAwarePrincipal)
 class Principal(PrincipalBase):
-
-    implements(IGroupAwarePrincipal)
 
     def __init__(self, id, title, description, login,
             pw, pwManagerName="Plain Text"):
@@ -189,9 +187,9 @@ class Principal(PrincipalBase):
         return pwManager.checkPassword(self.__pw, pw)
 
 
+@implementer(IUnauthenticatedPrincipal)
 class UnauthenticatedPrincipal(PrincipalBase):
-
-    implements(IUnauthenticatedPrincipal)
+    pass
 
 
 fallback_unauthenticated_principal = (
@@ -203,14 +201,15 @@ fallback_unauthenticated_principal = (
         'None as the unauthenticated principal.'))
 
 
+@implementer(IUnauthenticatedGroup)
 class UnauthenticatedGroup(Group):
+    pass
 
-    implements(IUnauthenticatedGroup)
-
+@implementer(IAuthenticatedGroup)
 class AuthenticatedGroup(Group):
+    pass
 
-    implements(IAuthenticatedGroup)
-
+@implementer(IEveryoneGroup)
 class EverybodyGroup(Group):
+    pass
 
-    implements(IEveryoneGroup)

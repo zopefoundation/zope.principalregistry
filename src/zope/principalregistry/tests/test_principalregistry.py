@@ -16,8 +16,6 @@
 import unittest
 from zope.authentication.interfaces import PrincipalLookupError
 from zope.authentication.loginpassword import LoginPassword
-from zope.component import provideAdapter
-from zope.interface import implements
 from zope.password.testing import setUpPasswordManagers
 
 from zope.principalregistry.principalregistry import PrincipalRegistry
