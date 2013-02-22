@@ -94,9 +94,9 @@ class PrincipalRegistry(object):
 
     def getPrincipals(self, name):
         name = name.lower()
-        return [p for p in self.__principalsById.itervalues()
-                  if p.title.lower().startswith(name) or
-                     p.getLogin().lower().startswith(name)]
+        return [p for p in self.__principalsById.values()
+                if (p.title.lower().startswith(name) or
+                    p.getLogin().lower().startswith(name))]
 
     def logout(self, request):
         # not supporting basic auth logout -- no such thing
@@ -109,7 +109,7 @@ class PrincipalRegistry(object):
         self.__principalsByLogin = {}
 
     def definePrincipal(self, principal, title, description='',
-            login='', password='', passwordManagerName='Plain Text'):
+            login='', password=b'', passwordManagerName='Plain Text'):
         id=principal
         if login in self.__principalsByLogin:
             raise DuplicateLogin(login)

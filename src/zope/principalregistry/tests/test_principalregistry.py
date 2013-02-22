@@ -42,10 +42,12 @@ class Test(unittest.TestCase):
     def setUp(self):
         setUpPasswordManagers()
         self.reg = PrincipalRegistry()
+        # Passwords are provided in encoded form, which means they must be
+        # bytes.
         self.reg.definePrincipal('1', 'Tim Peters', 'Sir Tim Peters',
-                                 'tim', '123')
+                                 'tim', b'123')
         self.reg.definePrincipal('2', 'Jim Fulton', 'Sir Jim Fulton',
-                                 'jim', '456')
+                                 'jim', b'456')
 
     def testRegistered(self):
         p = self.reg.getPrincipal('1')
@@ -66,11 +68,11 @@ class Test(unittest.TestCase):
         self.assertRaises(DuplicateId,
                           self.reg.definePrincipal,
                           '1', 'Tim Peters', 'Sir Tim Peters',
-                          'tim2', '123')
+                          'tim2', b'123')
         self.assertRaises(DuplicateLogin,
                           self.reg.definePrincipal,
                           '3', 'Tim Peters', 'Sir Tim Peters',
-                          'tim', '123')
+                          'tim', b'123')
         self.assertRaises(PrincipalLookupError, self.reg.getPrincipal, '3')
         self.assertEqual(len(self.reg.getPrincipals('')), 2)
 
@@ -89,11 +91,11 @@ class Test(unittest.TestCase):
 
     def testValidation(self):
         tim = self.reg.getPrincipalByLogin('tim')
-        self.assert_(tim.validate('123'))
-        self.failIf(tim.validate('456'))
-        self.failIf(tim.validate(''))
-        self.failIf(tim.validate('1234'))
-        self.failIf(tim.validate('12'))
+        self.assertTrue(tim.validate('123'))
+        self.assertFalse(tim.validate('456'))
+        self.assertFalse(tim.validate(''))
+        self.assertFalse(tim.validate('1234'))
+        self.assertFalse(tim.validate('12'))
 
     def testAuthenticate(self):
         req = Request(('tim', '123'))

@@ -187,10 +187,10 @@ It also adds it self to the groups of any non-group principals already
 defined, and, when non-group principals are defined, they put
 themselves in the group if it's defined:
 
-    >>> principals = list(principalRegistry.getPrincipals(''))
-    >>> principals.sort(lambda p1, p2: cmp(p1.id, p2.id))
+    >>> principals = sorted(principalRegistry.getPrincipals(''),
+    ...                     key=lambda p: p.id)
     >>> for p in principals:
-    ...    print p.id, p.groups == [g.id]
+    ...    print(p.id, p.groups == [g.id])
     zope.authenticated False
     zope.manager2 True
     zope.manager3 True
@@ -251,10 +251,10 @@ It also adds it self to the groups of any non-group principals already
 defined, and, when non-group principals are defined, they put
 themselves in the group if it's defined:
 
-    >>> principals = list(principalRegistry.getPrincipals(''))
-    >>> principals.sort(lambda p1, p2: cmp(p1.id, p2.id))
+    >>> principals = sorted(principalRegistry.getPrincipals(''),
+    ...                     key=lambda p: p.id)
     >>> for p in principals:
-    ...    print p.id, p.groups == [g.id]
+    ...    print(p.id, p.groups == [g.id])
     zope.everybody False
     zope.manager4 True
     zope.manager5 True
