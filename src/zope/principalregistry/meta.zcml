@@ -5,32 +5,32 @@
 
   <meta:directives namespace="http://namespaces.zope.org/zope">
 
-    <meta:directive 
-        name="principal" 
+    <meta:directive
+        name="principal"
         schema=".metadirectives.IDefinePrincipalDirective"
         handler=".metaconfigure.principal"
         />
-  
-    <meta:directive 
-        name="unauthenticatedPrincipal" 
+
+    <meta:directive
+        name="unauthenticatedPrincipal"
         schema=".metadirectives.IDefineUnauthenticatedPrincipalDirective"
         handler=".metaconfigure.unauthenticatedPrincipal"
         />
-  
-    <meta:directive 
-        name="unauthenticatedGroup" 
+
+    <meta:directive
+        name="unauthenticatedGroup"
         schema=".metadirectives.IDefineUnauthenticatedGroupDirective"
         handler=".metaconfigure.unauthenticatedGroup"
         />
-  
-    <meta:directive 
-        name="authenticatedGroup" 
+
+    <meta:directive
+        name="authenticatedGroup"
         schema=".metadirectives.IDefineAuthenticatedGroupDirective"
         handler=".metaconfigure.authenticatedGroup"
         />
-  
-    <meta:directive 
-        name="everybodyGroup" 
+
+    <meta:directive
+        name="everybodyGroup"
         schema=".metadirectives.IDefineEverybodyGroupDirective"
         handler=".metaconfigure.everybodyGroup"
         />

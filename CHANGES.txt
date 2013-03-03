@@ -5,7 +5,10 @@ CHANGES
 4.0.0a2 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Make sure that the password is always bytes when passed into the principal
+  registry.
+
+- Fix deprecation warnings.
 
 
 4.0.0a1 (2013-02-22)

@@ -30,6 +30,9 @@ def _principal():
 
 def principal(_context, id, title, login,
         password, description='', password_manager="Plain Text"):
+    # Make sure password is encoded to bytes, which is required by the
+    # principal registry.
+    password = password.encode('utf-8')
     _context.action(
         discriminator = ('principal', id),
         callable = principalregistry.principalRegistry.definePrincipal,

@@ -78,14 +78,14 @@ class Test(unittest.TestCase):
 
     def testSearch(self):
         r = self.reg.getPrincipals('J')
-        self.assertEquals(len(r), 1)
-        self.failUnless(r[0] is self.reg.getPrincipal('2'))
+        self.assertEqual(len(r), 1)
+        self.assertTrue(r[0] is self.reg.getPrincipal('2'))
 
     def testByLogin(self):
         tim = self.reg.getPrincipalByLogin('tim')
-        self.assertEquals(tim.getLogin(), 'tim')
+        self.assertEqual(tim.getLogin(), 'tim')
         jim = self.reg.getPrincipalByLogin('jim')
-        self.assertEquals(jim.getLogin(), 'jim')
+        self.assertEqual(jim.getLogin(), 'jim')
         self.assertRaises(KeyError,
                           self.reg.getPrincipalByLogin, 'kim')
 
@@ -98,41 +98,41 @@ class Test(unittest.TestCase):
         self.assertFalse(tim.validate('12'))
 
     def testAuthenticate(self):
-        req = Request(('tim', '123'))
+        req = Request((b'tim', b'123'))
         pid = self.reg.authenticate(req).id
-        self.assertEquals(pid, '1')
-        req = Request(('tim', '1234'))
+        self.assertEqual(pid, '1')
+        req = Request((b'tim', b'1234'))
         p = self.reg.authenticate(req)
-        self.assertEquals(p, None)
-        req = Request(('kim', '123'))
+        self.assertEqual(p, None)
+        req = Request((b'kim', b'123'))
         p = self.reg.authenticate(req)
-        self.assertEquals(p, None)
+        self.assertEqual(p, None)
 
     def testUnauthorized(self):
         request = Request(None)
         self.reg.unauthorized(self.reg.unauthenticatedPrincipal(), request)
-        self.assertEquals(request.challenge, 'basic realm="Zope"')
+        self.assertEqual(request.challenge, 'basic realm="Zope"')
         request = Request(None)
         self.reg.unauthorized(None, request)
-        self.assertEquals(request.challenge, 'basic realm="Zope"')
+        self.assertEqual(request.challenge, 'basic realm="Zope"')
         request = Request(None)
         self.reg.unauthorized("1", request)
-        self.assertEquals(request.challenge, None)
+        self.assertEqual(request.challenge, None)
 
     def testDefaultPrincipal(self):
-        self.assertEquals(self.reg.unauthenticatedPrincipal(), None)
+        self.assertEqual(self.reg.unauthenticatedPrincipal(), None)
         self.assertRaises(DuplicateId, self.reg.defineDefaultPrincipal,
                           "1", "tim")
         self.reg.defineDefaultPrincipal("everybody", "Default Principal")
-        self.assertEquals(self.reg.unauthenticatedPrincipal().id, "everybody")
+        self.assertEqual(self.reg.unauthenticatedPrincipal().id, "everybody")
         self.reg.defineDefaultPrincipal("anybody", "Default Principal",
                                         "This is the default headmaster")
-        self.assertEquals(self.reg.unauthenticatedPrincipal().id, "anybody")
+        self.assertEqual(self.reg.unauthenticatedPrincipal().id, "anybody")
         self.assertRaises(PrincipalLookupError,
                           self.reg.getPrincipal, "everybody")
         p = self.reg.getPrincipal("anybody")
-        self.assertEquals(p.id, "anybody")
-        self.assertEquals(p.title, "Default Principal")
+        self.assertEqual(p.id, "anybody")
+        self.assertEqual(p.title, "Default Principal")
         self.assertRaises(DuplicateId, self.reg.definePrincipal,
                           "anybody", "title")
 

@@ -49,7 +49,9 @@ class PrincipalRegistry(object):
         if a is not None:
             login = a.getLogin()
             if login is not None:
-                p = self.__principalsByLogin.get(login, None)
+                # The login will be in bytes, but the registry stores them
+                # using strings.
+                p = self.__principalsByLogin.get(login.decode(), None)
                 if p is not None:
                     password = a.getPassword()
                     if p.validate(password):
