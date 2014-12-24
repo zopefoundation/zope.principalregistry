@@ -36,7 +36,7 @@ def alltests():
     return unittest.TestSuite(suites)
 
 setup(name='zope.principalregistry',
-      version='4.0.0',
+      version='4.0.1.dev0',
       author='Zope Foundation and Contributors',
       author_email='zope-dev@zope.org',
       description='Global principal registry component for Zope3',
