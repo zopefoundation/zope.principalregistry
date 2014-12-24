@@ -17,7 +17,8 @@ import os
 from setuptools import setup, find_packages
 
 def read(*rnames):
-    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+    with open(os.path.join(os.path.dirname(__file__), *rnames)) as f:
+        return f.read()
 
 def alltests():
     import os
@@ -40,9 +41,11 @@ setup(name='zope.principalregistry',
       author_email='zope-dev@zope.org',
       description='Global principal registry component for Zope3',
       long_description=(
+          read('README.rst')
+          + '\n\n' +
           read('src', 'zope', 'principalregistry', 'README.txt')
           + '\n\n' +
-          read('CHANGES.txt')
+          read('CHANGES.rst')
           ),
       keywords = "zope security authentication principal registry",
       classifiers = [

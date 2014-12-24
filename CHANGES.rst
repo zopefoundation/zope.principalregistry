@@ -1,5 +1,4 @@
-=======
-CHANGES
+Changes
 =======
 
 4.0.0a3 (unreleased)
