@@ -1,10 +1,10 @@
 Changes
 =======
 
-4.0.0a3 (unreleased)
---------------------
+4.0.0 (unreleased)
+------------------
 
-- Nothing changed yet.
+- Add support for testing under Travis.
 
 
 4.0.0a2 (2013-03-03)
@@ -19,27 +19,27 @@ Changes
 4.0.0a1 (2013-02-22)
 --------------------
 
-- Added Python 3.3 support.
+- Add support for Python 3.3.
 
-- Replaced deprecated ``zope.interface.implements`` usage with equivalent
+- Replace deprecated ``zope.interface.implements`` usage with equivalent
   ``zope.interface.implementer`` decorator.
 
-- Dropped support for Python 2.4 and 2.5.
+- Dropd support for Python 2.4 and 2.5.
 
 
 3.7.1 (2010-09-25)
 ------------------
 
-- Added test extra to declare test dependency on ``zope.component [test]``.
+- Add test extra to declare test dependency on ``zope.component [test]``.
 
-- Using Python's ``doctest`` module instead of depreacted
+- Use Python's ``doctest`` module instead of depreacted
   ``zope.testing.doctest``.
 
 
 3.7.0 (2009-03-14)
 ------------------
 
-- Removed ``zope.container`` dependency, as contained principals didn't make any
+- Remove ``zope.container`` dependency, as contained principals didn't make any
   sense, since PrincipalRegistry never provided IContainer. Also, zope.container
   pulls a number dependencies, that are not needed for non-persistent principal
   registry (like, ZCML, for example).
