@@ -29,7 +29,7 @@ def _principal():
         _everybodyGroup(group.id)
 
 def principal(_context, id, title, login,
-        password, description='', password_manager="Plain Text"):
+              password, description='', password_manager="Plain Text"):
     """
     Implementation of :class:`zope.principalregistry.metadirectives.IDefinePrincipalDirective`.
     """
@@ -37,10 +37,10 @@ def principal(_context, id, title, login,
     # principal registry.
     password = password.encode('utf-8')
     _context.action(
-        discriminator = ('principal', id),
-        callable = principalregistry.principalRegistry.definePrincipal,
-        args = (id, title, description, login, password, password_manager) )
-    _context.action(discriminator = None, callable = _principal, args = ())
+        discriminator=('principal', id),
+        callable=principalregistry.principalRegistry.definePrincipal,
+        args=(id, title, description, login, password, password_manager))
+    _context.action(discriminator=None, callable=_principal, args=())
 
 
 def _unauthenticatedPrincipal():
@@ -58,15 +58,15 @@ def unauthenticatedPrincipal(_context, id, title, description=''):
     principal = principalregistry.UnauthenticatedPrincipal(
         id, title, description)
     _context.action(
-        discriminator = 'unauthenticatedPrincipal',
-        callable = principalregistry.principalRegistry.defineDefaultPrincipal,
-        args = (id, title, description, principal) )
+        discriminator='unauthenticatedPrincipal',
+        callable=principalregistry.principalRegistry.defineDefaultPrincipal,
+        args=(id, title, description, principal))
     utility(_context, interfaces.IUnauthenticatedPrincipal, principal)
     _context.action(
-        discriminator = None,
-        callable = _unauthenticatedPrincipal,
-        args = (),
-        )
+        discriminator=None,
+        callable=_unauthenticatedPrincipal,
+        args=(),
+    )
 
 def _unauthenticatedGroup(group):
     p = principalregistry.principalRegistry.unauthenticatedPrincipal()
@@ -81,15 +81,15 @@ def unauthenticatedGroup(_context, id, title, description=''):
         id, title, description)
     utility(_context, interfaces.IUnauthenticatedGroup, principal)
     _context.action(
-        discriminator = None,
-        callable = _unauthenticatedGroup,
-        args = (principal.id, ),
-        )
+        discriminator=None,
+        callable=_unauthenticatedGroup,
+        args=(principal.id, ),
+    )
     _context.action(
-        discriminator = None,
-        callable = principalregistry.principalRegistry.registerGroup,
-        args = (principal, ),
-        )
+        discriminator=None,
+        callable=principalregistry.principalRegistry.registerGroup,
+        args=(principal, ),
+    )
 
 def _authenticatedGroup(group):
     for p in principalregistry.principalRegistry.getPrincipals(''):
@@ -106,15 +106,15 @@ def authenticatedGroup(_context, id, title, description=''):
         id, title, description)
     utility(_context, interfaces.IAuthenticatedGroup, principal)
     _context.action(
-        discriminator = None,
-        callable = _authenticatedGroup,
-        args = (principal.id, ),
-        )
+        discriminator=None,
+        callable=_authenticatedGroup,
+        args=(principal.id, ),
+    )
     _context.action(
-        discriminator = None,
-        callable = principalregistry.principalRegistry.registerGroup,
-        args = (principal, ),
-        )
+        discriminator=None,
+        callable=principalregistry.principalRegistry.registerGroup,
+        args=(principal, ),
+    )
 
 def _everybodyGroup(group):
     for p in principalregistry.principalRegistry.getPrincipals(''):
@@ -134,12 +134,12 @@ def everybodyGroup(_context, id, title, description=''):
         id, title, description)
     utility(_context, interfaces.IEveryoneGroup, principal)
     _context.action(
-        discriminator = None,
-        callable = _everybodyGroup,
-        args = (principal.id, ),
+        discriminator=None,
+        callable=_everybodyGroup,
+        args=(principal.id, ),
         )
     _context.action(
-        discriminator = None,
-        callable = principalregistry.principalRegistry.registerGroup,
-        args = (principal, ),
-        )
+        discriminator=None,
+        callable=principalregistry.principalRegistry.registerGroup,
+        args=(principal, ),
+    )
