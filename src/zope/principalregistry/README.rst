@@ -276,6 +276,25 @@ Including unauthenticated principals, of course:
 Note that it is up to IAuthentication implementations to associate
 these groups with their principals, as appropriate.
 
+In our case, if we define an unauthenticated principal after having
+defined the everybody group, the principal will be automatically
+added:
+
+    >>> zcml("""
+    ...    <configure xmlns="http://namespaces.zope.org/zope">
+    ...
+    ...      <unauthenticatedPrincipal
+    ...         id="zope.unknown5"
+    ...         title="Anonymous user"
+    ...         description="A person we don't know"
+    ...         />
+    ...
+    ...    </configure>
+    ... """)
+    >>> p = component.getUtility(interfaces.IUnauthenticatedPrincipal)
+    >>> p.id, g.id in p.groups
+    ('zope.unknown5', True)
+
 
 The system_user
 ===============

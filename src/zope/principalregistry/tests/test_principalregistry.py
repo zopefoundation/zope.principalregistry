@@ -64,7 +64,7 @@ class Test(unittest.TestCase):
     def testUnRegistered(self):
         self.assertRaises(PrincipalLookupError, self.reg.getPrincipal, '3')
 
-    def testDup(self):
+    def testDupPrincipal(self):
         self.assertRaises(DuplicateId,
                           self.reg.definePrincipal,
                           '1', 'Tim Peters', 'Sir Tim Peters',
@@ -136,8 +136,25 @@ class Test(unittest.TestCase):
         self.assertRaises(DuplicateId, self.reg.definePrincipal,
                           "anybody", "title")
 
+    def test_logout(self):
+        self.assertIsNone(self.reg.logout(None))
+
+    def test_duplicate_group(self):
+        class Group(object):
+            id = "id"
+
+        self.reg.registerGroup(Group)
+
+        with self.assertRaises(DuplicateId):
+            self.reg.registerGroup(Group)
+
+
+class TestGroup(unittest.TestCase):
+
+    def test_login(self):
+        from zope.principalregistry.principalregistry import Group
+        self.assertEqual('', Group("id", "title", "desc").getLogin())
+
 
 def test_suite():
-    return unittest.TestSuite((
-        unittest.makeSuite(Test),
-        ))
+    return unittest.defaultTestLoader.loadTestsFromName(__name__)

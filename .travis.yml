@@ -2,9 +2,9 @@ language: python
 sudo: false
 python:
     - 2.7
-    - 3.3
     - 3.4
     - 3.5
+    - 3.6
     - pypy
     - pypy3.5-5.8.0
 install:
@@ -12,7 +12,9 @@ install:
     - pip install -U coveralls coverage
     - pip install -U -e .[test]
 script:
-    - zope-testrunner --test-path=src
+    - coverage run -m zope.testrunner --test-path=src
+after_success:
+    - coveralls
 notifications:
     email: false
 cache: pip
