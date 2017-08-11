@@ -1,16 +1,18 @@
-Changes
-=======
+=========
+ Changes
+=========
 
 4.1.0 (unreleased)
-------------------
+==================
 
 - Add support for Python 3.5.
 
 - Drop support for Python 2.6.
 
+- Host documentation at https://zopeprincipalregistry.readthedocs.io
 
 4.0.0 (2014-12-24)
-------------------
+==================
 
 - Add support for PyPy.  (PyPy3 is pending release of a fix for:
   https://bitbucket.org/pypy/pypy/issue/1946)
@@ -21,7 +23,7 @@ Changes
 
 
 4.0.0a2 (2013-03-03)
---------------------
+====================
 
 - Make sure that the password is always bytes when passed into the principal
   registry.
@@ -30,7 +32,7 @@ Changes
 
 
 4.0.0a1 (2013-02-22)
---------------------
+====================
 
 - Add support for Python 3.3.
 
@@ -41,7 +43,7 @@ Changes
 
 
 3.7.1 (2010-09-25)
-------------------
+==================
 
 - Add test extra to declare test dependency on ``zope.component [test]``.
 
@@ -50,7 +52,7 @@ Changes
 
 
 3.7.0 (2009-03-14)
-------------------
+==================
 
 - Remove ``zope.container`` dependency, as contained principals didn't make any
   sense, since PrincipalRegistry never provided IContainer. Also, zope.container

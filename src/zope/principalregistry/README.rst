@@ -1,11 +1,17 @@
-Global principal definition
-===========================
+=============================
+ Global principal definition
+=============================
 
-Global principals are defined via ZCML.  There are several kinds of
-principals that can be defined.
+Global principals are defined via ZCML and are placed in
+:data:`zope.principalregistry.principalregistry.principalRegistry`.
+There are several kinds of principals that can be defined.
+
+When you use ZCML to configure this package (load its
+``configure.zcml``) that registry becomes a global utility
+implementing :class:`zope.authentication.interfaces.IAuthentication`.
 
 Authenticated Users
--------------------
+===================
 
 There are principals that can log in:
 
@@ -31,7 +37,7 @@ There are principals that can log in:
     ('zope.manager', u'Manager', u'System Manager', u'admin', True)
 
 The unauthenticated principal
------------------------------
+=============================
 
 There is the unauthenticated principal:
 
@@ -65,7 +71,7 @@ same principal.
     ('zope.unknown', u'Anonymous user', u"A person we don't know")
 
 The unauthenticated group
--------------------------
+=========================
 
 An unauthenticated group can also be defined in ZCML:
 
@@ -141,7 +147,7 @@ registry:
     True
 
 The authenticated group
------------------------
+=======================
 
 There is an authenticated group:
 
@@ -205,7 +211,7 @@ Excluding unauthenticated principals, of course:
 
 
 The everybody group
--------------------
+===================
 
 Finally, there is an everybody group:
 
@@ -272,7 +278,7 @@ these groups with their principals, as appropriate.
 
 
 The system_user
----------------
+===============
 
 There is also a system_user that is defined in the code.  It will be returned
 from the getPrincipal method of the registry.

@@ -41,6 +41,10 @@ class DuplicateId(Exception):
 
 @implementer(IAuthentication, ILogout)
 class PrincipalRegistry(object):
+    """
+    An in-memory implementation of :class:`zope.authentication.interfaces.IAuthentication`
+    and :class:`zope.authentication.interfaces.ILogout`.
+    """
 
     # Methods implementing IAuthentication
 
@@ -141,6 +145,8 @@ class PrincipalRegistry(object):
         self.__defaultid = None
         self.__defaultObject = None
 
+#: The global registry that the ZCML directives will
+#: modify.
 principalRegistry = PrincipalRegistry()
 
 # Register our cleanup with Testing.CleanUp to make writing unit tests
@@ -170,6 +176,10 @@ class Group(PrincipalBase):
 
 @implementer(IGroupAwarePrincipal)
 class Principal(PrincipalBase):
+    """
+    The default implementation of :class:`zope.security.interfaces.IGroupAwarePrincipal`
+    that :class:`PrincipalRegistry` will create.
+    """
 
     def __init__(self, id, title, description, login,
             pw, pwManagerName="Plain Text"):
@@ -191,7 +201,7 @@ class Principal(PrincipalBase):
 
 @implementer(IUnauthenticatedPrincipal)
 class UnauthenticatedPrincipal(PrincipalBase):
-    pass
+    """An implementation of :class:`zope.authentication.interfaces.IUnauthenticatedPrincipal`."""
 
 
 fallback_unauthenticated_principal = (
@@ -205,13 +215,12 @@ fallback_unauthenticated_principal = (
 
 @implementer(IUnauthenticatedGroup)
 class UnauthenticatedGroup(Group):
-    pass
+    """An implementation of :class:`zope.authentication.interfaces.IUnauthenticatedGroup`."""
 
 @implementer(IAuthenticatedGroup)
 class AuthenticatedGroup(Group):
-    pass
+    """An implementation of :class:`zope.authentication.interfaces.IAuthenticatedGroup`."""
 
 @implementer(IEveryoneGroup)
 class EverybodyGroup(Group):
-    pass
-
+    """An implementation of :class:`zope.authentication.interfaces.IEverybodyGroup`."""

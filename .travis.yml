@@ -6,10 +6,13 @@ python:
     - 3.4
     - 3.5
     - pypy
-    - pypy3
+    - pypy3.5-5.8.0
 install:
-    - pip install .
+    - pip install -U setuptools pip
+    - pip install -U coveralls coverage
+    - pip install -U -e .[test]
 script:
-    - python setup.py -q test -q
+    - zope-testrunner --test-path=src
 notifications:
     email: false
+cache: pip
