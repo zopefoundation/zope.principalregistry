@@ -51,9 +51,9 @@ class IDefinePrincipalDirective(IBasePrincipalDirective):
     password_manager = TextLine(
         title=u"Password Manager Name",
         description=(u"Name of the password manager will be used"
-            " for encode/check the password"),
+                     " for encode/check the password"),
         default=u"Plain Text"
-        )
+    )
 
 class IDefineUnauthenticatedPrincipalDirective(IBasePrincipalDirective):
     """Define a new unauthenticated principal."""

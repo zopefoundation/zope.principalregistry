@@ -115,8 +115,8 @@ class PrincipalRegistry(object):
         self.__principalsByLogin = {}
 
     def definePrincipal(self, principal, title, description='',
-            login='', password=b'', passwordManagerName='Plain Text'):
-        id=principal
+                        login='', password=b'', passwordManagerName='Plain Text'):
+        id = principal
         if login in self.__principalsByLogin:
             raise DuplicateLogin(login)
 
@@ -124,7 +124,7 @@ class PrincipalRegistry(object):
             raise DuplicateId(id)
 
         p = Principal(id, title, description,
-            login, password, passwordManagerName)
+                      login, password, passwordManagerName)
         p.__name__ = id
         p.__parent__ = self
 
@@ -153,7 +153,7 @@ principalRegistry = PrincipalRegistry()
 # simpler.
 try:
     from zope.testing.cleanup import addCleanUp
-except ImportError:
+except ImportError: # pragma: no cover
     pass
 else:
     addCleanUp(principalRegistry._clear)
@@ -182,7 +182,7 @@ class Principal(PrincipalBase):
     """
 
     def __init__(self, id, title, description, login,
-            pw, pwManagerName="Plain Text"):
+                 pw, pwManagerName="Plain Text"):
         super(Principal, self).__init__(id, title, description)
         self.__login = login
         self.__pwManagerName = pwManagerName

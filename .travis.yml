@@ -2,17 +2,23 @@ language: python
 sudo: false
 python:
     - 2.7
-    - 3.3
     - 3.4
     - 3.5
-    - pypy
+    - 3.6
+    # Force a newer PyPy on the old 'precise' CI image
+    # in order to install 'cryptography' needed for coveralls
+    # After September 2017 this should be the default and the version
+    # pin can be removed.
+    - pypy-5.6.0
     - pypy3.5-5.8.0
 install:
     - pip install -U setuptools pip
     - pip install -U coveralls coverage
     - pip install -U -e .[test]
 script:
-    - zope-testrunner --test-path=src
+    - coverage run -m zope.testrunner --test-path=src
+after_success:
+    - coveralls
 notifications:
     email: false
 cache: pip

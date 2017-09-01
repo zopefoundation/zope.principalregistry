@@ -5,11 +5,15 @@
 4.1.0 (unreleased)
 ==================
 
-- Add support for Python 3.5.
+- Add support for Python 3.5 and 3.6.
 
-- Drop support for Python 2.6.
+- Drop support for Python 2.6 and 3.3.
 
 - Host documentation at https://zopeprincipalregistry.readthedocs.io
+
+- Reach 100% test coverage and ensure we remain there.
+
+- Test PyPy3 on Travis CI.
 
 4.0.0 (2014-12-24)
 ==================
@@ -47,7 +51,7 @@
 
 - Add test extra to declare test dependency on ``zope.component [test]``.
 
-- Use Python's ``doctest`` module instead of depreacted
+- Use Python's ``doctest`` module instead of deprecated
   ``zope.testing.doctest``.
 
 
@@ -59,9 +63,9 @@
   pulls a number dependencies, that are not needed for non-persistent principal
   registry (like, ZCML, for example).
 
-  Set __name__ and __parent__ by hand to provide some backward-compatibility and
+  Set ``__name__`` and ``__parent__`` by hand to provide some backward-compatibility and
   to save a pointer to registry from principal objects.
 
-- Initial release. This package was splitted from zope.app.security as a part
+- Initial release. This package was split from zope.app.security as a part
   of the refactoring process to provide global principal registry without extra
   dependencies.
