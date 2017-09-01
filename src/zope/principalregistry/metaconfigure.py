@@ -30,6 +30,9 @@ def _principal():
 
 def principal(_context, id, title, login,
         password, description='', password_manager="Plain Text"):
+    """
+    Implementation of :class:`zope.principalregistry.metadirectives.IDefinePrincipalDirective`.
+    """
     # Make sure password is encoded to bytes, which is required by the
     # principal registry.
     password = password.encode('utf-8')
@@ -49,6 +52,9 @@ def _unauthenticatedPrincipal():
         _everybodyGroup(group.id)
 
 def unauthenticatedPrincipal(_context, id, title, description=''):
+    """
+    Implementation of :class:`zope.principalregistry.metadirectives.IDefineUnauthenticatedPrincipalDirective`.
+    """
     principal = principalregistry.UnauthenticatedPrincipal(
         id, title, description)
     _context.action(
@@ -68,6 +74,9 @@ def _unauthenticatedGroup(group):
         p.groups.append(group)
 
 def unauthenticatedGroup(_context, id, title, description=''):
+    """
+    Implementation of :class:`zope.principalregistry.metadirectives.IDefineUnauthenticatedGroupDirective`.
+    """
     principal = principalregistry.UnauthenticatedGroup(
         id, title, description)
     utility(_context, interfaces.IUnauthenticatedGroup, principal)
@@ -90,6 +99,9 @@ def _authenticatedGroup(group):
             p.groups.append(group)
 
 def authenticatedGroup(_context, id, title, description=''):
+    """
+    Implementation of :class:`zope.principalregistry.metadirectives.IDefineAuthenticatedGroupDirective`.
+    """
     principal = principalregistry.AuthenticatedGroup(
         id, title, description)
     utility(_context, interfaces.IAuthenticatedGroup, principal)
@@ -115,6 +127,9 @@ def _everybodyGroup(group):
         p.groups.append(group)
 
 def everybodyGroup(_context, id, title, description=''):
+    """
+    Implementation of :class:`zope.principalregistry.metadirectives.IDefineEverybodyGroupDirective`.
+    """
     principal = principalregistry.EverybodyGroup(
         id, title, description)
     utility(_context, interfaces.IEveryoneGroup, principal)

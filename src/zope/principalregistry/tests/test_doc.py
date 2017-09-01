@@ -51,9 +51,11 @@ def reset():
 def test_suite():
     return unittest.TestSuite((
         doctest.DocFileSuite(
-                '../README.txt',
-                setUp=setUp, tearDown=tearDown, checker=checker,
-                globs={'zcml': zcml,
-                       'reset': reset,
-                       'print_function': print_function}),
-        ))
+            '../README.rst',
+            setUp=setUp, tearDown=tearDown, checker=checker,
+            globs={
+                'zcml': zcml,
+                'reset': reset,
+                'print_function': print_function,
+            }),
+    ))

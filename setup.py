@@ -35,6 +35,11 @@ def alltests():
     suites = list(zope.testrunner.find.find_suites(options))
     return unittest.TestSuite(suites)
 
+TESTS_REQUIRE = [
+    'zope.testing',
+    'zope.testrunner',
+]
+
 setup(name='zope.principalregistry',
       version='4.1.0.dev0',
       author='Zope Foundation and Contributors',
@@ -43,12 +48,10 @@ setup(name='zope.principalregistry',
       long_description=(
           read('README.rst')
           + '\n\n' +
-          read('src', 'zope', 'principalregistry', 'README.txt')
-          + '\n\n' +
           read('CHANGES.rst')
-          ),
-      keywords = "zope security authentication principal registry",
-      classifiers = [
+      ),
+      keywords="zope security authentication principal registry",
+      classifiers=[
           'Development Status :: 5 - Production/Stable',
           'Environment :: Web Environment',
           'Intended Audience :: Developers',
@@ -65,28 +68,30 @@ setup(name='zope.principalregistry',
           'Natural Language :: English',
           'Operating System :: OS Independent',
           'Topic :: Internet :: WWW/HTTP',
-          'Framework :: Zope3'],
+          'Framework :: Zope3',
+      ],
       url='https://github.com/zopefoundation/zope.principalregistry',
       license='ZPL 2.1',
       packages=find_packages('src'),
-      package_dir = {'': 'src'},
+      package_dir={'': 'src'},
       namespace_packages=['zope'],
-      install_requires=['setuptools',
-                        'zope.authentication',
-                        'zope.component',
-                        'zope.interface',
-                        'zope.password',
-                        'zope.security',
-                        ],
-      extras_require=dict(
-          test=[
-              'zope.testing',
-              ]),
-      tests_require = [
-          'zope.testing',
-          'zope.testrunner',
+      install_requires=[
+          'setuptools',
+          'zope.authentication',
+          'zope.component',
+          'zope.interface',
+          'zope.password',
+          'zope.security',
+      ],
+      extras_require={
+          'test': TESTS_REQUIRE,
+          'docs': [
+              'Sphinx',
+              'repoze.sphinx.autointerface',
           ],
-      test_suite = '__main__.alltests',
-      include_package_data = True,
-      zip_safe = False,
-      )
+      },
+      tests_require=TESTS_REQUIRE,
+      test_suite='__main__.alltests',
+      include_package_data=True,
+      zip_safe=False,
+)
