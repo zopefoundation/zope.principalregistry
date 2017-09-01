@@ -13,6 +13,8 @@
 
 - Reach 100% test coverage and ensure we remain there.
 
+- Test PyPy3 on Travis CI.
+
 4.0.0 (2014-12-24)
 ==================
 
