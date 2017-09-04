@@ -3,7 +3,13 @@ include *.txt
 include *.py
 include buildout.cfg
 include tox.ini
+include .travis.yml
+include .coveragerc
+
 
 recursive-include src *
+recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include docs Makefile
 
 global-exclude *.pyc
