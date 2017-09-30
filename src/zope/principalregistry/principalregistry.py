@@ -30,6 +30,8 @@ from zope.authentication.interfaces import (
     IEveryoneGroup,
     )
 
+def _as_text(s):
+    return s.decode('utf-8') if isinstance(s, bytes) else s
 
 class DuplicateLogin(Exception):
     pass
@@ -55,7 +57,7 @@ class PrincipalRegistry(object):
             if login is not None:
                 # The login will be in bytes, but the registry stores them
                 # using strings.
-                p = self.__principalsByLogin.get(login.decode(), None)
+                p = self.__principalsByLogin.get(_as_text(login), None)
                 if p is not None:
                     password = a.getPassword()
                     if p.validate(password):
@@ -65,8 +67,12 @@ class PrincipalRegistry(object):
     __defaultid = None
     __defaultObject = None
 
-    def defineDefaultPrincipal(self, id, title, description='',
+    def defineDefaultPrincipal(self, id, title, description=u'',
                                principal=None):
+        id = _as_text(id)
+        title = _as_text(title)
+        description = _as_text(description)
+
         if id in self.__principalsById:
             raise DuplicateId(id)
         self.__defaultid = id
@@ -81,7 +87,7 @@ class PrincipalRegistry(object):
         return self.__defaultObject
 
     def unauthorized(self, id, request):
-        if id is None or id is self.__defaultid:
+        if id is None or id == self.__defaultid:
             a = ILoginPassword(request)
             a.needLogin(realm="Zope")
 
@@ -114,9 +120,12 @@ class PrincipalRegistry(object):
         self.__principalsById = {}
         self.__principalsByLogin = {}
 
-    def definePrincipal(self, principal, title, description='',
-                        login='', password=b'', passwordManagerName='Plain Text'):
-        id = principal
+    def definePrincipal(self, principal, title, description=u'',
+                        login=u'', password=b'', passwordManagerName='Plain Text'):
+        id = _as_text(principal)
+        title = _as_text(title)
+        description = _as_text(description)
+        login = _as_text(login)
         if login in self.__principalsByLogin:
             raise DuplicateLogin(login)
 
@@ -134,7 +143,7 @@ class PrincipalRegistry(object):
         return p
 
     def registerGroup(self, group):
-        id = group.id
+        id = _as_text(group.id)
         if id in self.__principalsById or id == self.__defaultid:
             raise DuplicateId(id)
 
@@ -164,15 +173,15 @@ class PrincipalBase(object):
     __name__ = __parent__ = None
 
     def __init__(self, id, title, description):
-        self.id = id
-        self.title = title
-        self.description = description
+        self.id = _as_text(id)
+        self.title = _as_text(title)
+        self.description = _as_text(description)
         self.groups = []
 
 class Group(PrincipalBase):
 
     def getLogin(self):
-        return '' # to make registry search happy
+        return u'' # to make registry search happy
 
 @implementer(IGroupAwarePrincipal)
 class Principal(PrincipalBase):
@@ -184,7 +193,7 @@ class Principal(PrincipalBase):
     def __init__(self, id, title, description, login,
                  pw, pwManagerName="Plain Text"):
         super(Principal, self).__init__(id, title, description)
-        self.__login = login
+        self.__login = _as_text(login)
         self.__pwManagerName = pwManagerName
         self.__pw = pw
 
