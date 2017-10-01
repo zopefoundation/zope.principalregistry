@@ -2,7 +2,7 @@
  Changes
 =========
 
-4.1.1 (unreleased)
+4.2.0 (2017-10-01)
 ==================
 
 - Fix principal and group objects registered in ZCML or directly with
