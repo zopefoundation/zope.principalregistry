@@ -16,11 +16,20 @@
 from zope.interface import Interface
 from zope.schema import Id, TextLine
 
+class TextId(Id):
+    """
+    An Id that is the text type instead of a native string.
+
+    This is required because ``IPrincipal`` defines *id* to be
+    the text type.
+    """
+
+    _type = str if str is not bytes else unicode
 
 class IBasePrincipalDirective(Interface):
     """Base interface for principal definition directives."""
 
-    id = Id(
+    id = TextId(
         title=u"Id",
         description=u"Id as which this object will be known and used.",
         required=True)

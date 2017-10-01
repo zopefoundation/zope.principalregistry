@@ -97,6 +97,21 @@ class Test(unittest.TestCase):
         self.assertFalse(tim.validate('1234'))
         self.assertFalse(tim.validate('12'))
 
+    def _validatePrincipal(self, principal):
+        from zope.security.interfaces import IPrincipal
+        from zope.interface.verify import verifyObject
+        from zope.schema import getValidationErrors
+
+        self.assertTrue(verifyObject(IPrincipal, principal))
+
+        errors = getValidationErrors(IPrincipal, principal)
+        self.assertEqual([], errors)
+
+    def testSchemaValidation(self):
+        # Registered objects comply with IPrincipal
+        tim = self.reg.getPrincipalByLogin('tim')
+        self._validatePrincipal(tim)
+
     def testAuthenticate(self):
         req = Request((b'tim', b'123'))
         pid = self.reg.authenticate(req).id
@@ -125,16 +140,22 @@ class Test(unittest.TestCase):
                           "1", "tim")
         self.reg.defineDefaultPrincipal("everybody", "Default Principal")
         self.assertEqual(self.reg.unauthenticatedPrincipal().id, "everybody")
-        self.reg.defineDefaultPrincipal("anybody", "Default Principal",
-                                        "This is the default headmaster")
-        self.assertEqual(self.reg.unauthenticatedPrincipal().id, "anybody")
+        anybody = self.reg.defineDefaultPrincipal("anybody",
+                                                  "Default Principal",
+                                                  "This is the default headmaster")
+        self.assertIs(anybody, self.reg.unauthenticatedPrincipal())
+        self.assertEqual(anybody.id, "anybody")
         self.assertRaises(PrincipalLookupError,
                           self.reg.getPrincipal, "everybody")
         p = self.reg.getPrincipal("anybody")
+        self.assertIs(p, anybody)
         self.assertEqual(p.id, "anybody")
         self.assertEqual(p.title, "Default Principal")
         self.assertRaises(DuplicateId, self.reg.definePrincipal,
                           "anybody", "title")
+
+        # It complies with IPrincipal
+        self._validatePrincipal(anybody)
 
     def test_logout(self):
         self.assertIsNone(self.reg.logout(None))
@@ -151,9 +172,62 @@ class Test(unittest.TestCase):
 
 class TestGroup(unittest.TestCase):
 
-    def test_login(self):
+    def _getTargetClass(self):
         from zope.principalregistry.principalregistry import Group
-        self.assertEqual('', Group("id", "title", "desc").getLogin())
+        return Group
+
+    def _getTargetInterface(self):
+        from zope.interface import Interface
+        return Interface
+
+    def test_login(self):
+        cls = self._getTargetClass()
+        self.assertEqual(u'', cls("id", "title", "desc").getLogin())
+
+    def test_valid(self):
+        from zope.interface.verify import verifyObject
+        from zope.schema import getValidationErrors
+
+        schema = self._getTargetInterface()
+        group = self._getTargetClass()("id", "title", "desc")
+
+        self.assertTrue(verifyObject(schema, group))
+
+        errors = getValidationErrors(schema, group)
+        self.assertEqual([], errors)
+
+
+class TestUnauthenticatedGroup(TestGroup):
+
+    def _getTargetClass(self):
+        from zope.principalregistry.principalregistry import UnauthenticatedGroup
+        return UnauthenticatedGroup
+
+    def _getTargetInterface(self):
+        from zope.authentication.interfaces import IUnauthenticatedGroup
+        return IUnauthenticatedGroup
+
+
+class TestAuthenticatedGroup(TestGroup):
+
+    def _getTargetClass(self):
+        from zope.principalregistry.principalregistry import AuthenticatedGroup
+        return AuthenticatedGroup
+
+    def _getTargetInterface(self):
+        from zope.authentication.interfaces import IAuthenticatedGroup
+        return IAuthenticatedGroup
+
+
+class TestEverybodyGroup(TestGroup):
+
+    def _getTargetClass(self):
+        from zope.principalregistry.principalregistry import EverybodyGroup
+        return EverybodyGroup
+
+    def _getTargetInterface(self):
+        from zope.authentication.interfaces import IEveryoneGroup
+        return IEveryoneGroup
 
 
 def test_suite():

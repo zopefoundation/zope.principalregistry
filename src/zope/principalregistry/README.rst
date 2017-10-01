@@ -30,11 +30,31 @@ There are principals that can log in:
     ...    </configure>
     ... """)
 
-    >>> import pprint
     >>> from zope.principalregistry.principalregistry import principalRegistry
     >>> [p] = principalRegistry.getPrincipals('')
     >>> p.id, p.title, p.description, p.getLogin(), p.validate('123')
     ('zope.manager', u'Manager', u'System Manager', u'admin', True)
+
+We can verify that it conforms to the
+:class:`zope.security.interfaces.IPrincipal` interface:
+
+    >>> from zope.security.interfaces import IPrincipal
+    >>> from zope.interface.verify import verifyObject
+    >>> from zope.schema import getValidationErrors
+    >>> verifyObject(IPrincipal, p)
+    True
+    >>> getValidationErrors(IPrincipal, p)
+    []
+
+In fact, it's actually a
+:class:`zope.security.interfaces.IGroupAwarePrincipal`:
+
+    >>> from zope.security.interfaces import IGroupAwarePrincipal
+    >>> verifyObject(IGroupAwarePrincipal, p)
+    True
+    >>> getValidationErrors(IGroupAwarePrincipal, p)
+    []
+
 
 The unauthenticated principal
 =============================
@@ -59,13 +79,21 @@ There is the unauthenticated principal:
     >>> p.id, p.title, p.description
     ('zope.unknown', u'Anonymous user', u"A person we don't know")
 
+It implements :class:`zope.authentication.interfaces.IUnauthenticatedPrincipal`:
+
+    >>> from zope.authentication import interfaces
+    >>> verifyObject(interfaces.IUnauthenticatedPrincipal, p)
+    True
+    >>> getValidationErrors(interfaces.IUnauthenticatedPrincipal, p)
+    []
+
+
 The unauthenticated principal will also be registered as a utility.
 This is to provide easy access to the data defined for the principal so
 that other (more featureful) principal objects can be created for the
 same principal.
 
     >>> from zope import component
-    >>> from zope.authentication import interfaces
     >>> p = component.getUtility(interfaces.IUnauthenticatedPrincipal)
     >>> p.id, p.title, p.description
     ('zope.unknown', u'Anonymous user', u"A person we don't know")
@@ -95,6 +123,13 @@ IUnauthenticatedGroup:
     >>> g = component.getUtility(interfaces.IUnauthenticatedGroup)
     >>> g.id, g.title, g.description
     ('zope.unknowngroup', u'Anonymous users', u"People we don't know")
+
+It implements :class:`zope.authentication.interfaces.IUnauthenticatedGroup`:
+
+    >>> verifyObject(interfaces.IUnauthenticatedGroup, g)
+    True
+    >>> getValidationErrors(interfaces.IUnauthenticatedGroup, g)
+    []
 
 The unauthenticatedGroup directive also updates the group of the
 unauthenticated principal:
@@ -188,6 +223,13 @@ It defines an IAuthenticatedGroup utility:
     >>> g.id, g.title, g.description
     ('zope.authenticated', u'Authenticated users', u'People we know')
 
+It implements :class:`zope.authentication.interfaces.IUnauthenticatedGroup`:
+
+    >>> verifyObject(interfaces.IAuthenticatedGroup, g)
+    True
+    >>> getValidationErrors(interfaces.IAuthenticatedGroup, g)
+    []
+
 It also adds it self to the groups of any non-group principals already
 defined, and, when non-group principals are defined, they put
 themselves in the group if it's defined:
@@ -251,6 +293,13 @@ The everybodyGroup directive defines an IEveryoneGroup utility:
     >>> g = component.getUtility(interfaces.IEveryoneGroup)
     >>> g.id, g.title, g.description
     ('zope.everybody', u'Everybody', u'All People')
+
+It implements :class:`zope.authentication.interfaces.IEveryoneGroup`:
+
+    >>> verifyObject(interfaces.IEveryoneGroup, g)
+    True
+    >>> getValidationErrors(interfaces.IEveryoneGroup, g)
+    []
 
 It also adds it self to the groups of any non-group principals already
 defined, and, when non-group principals are defined, they put

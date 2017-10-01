@@ -5,7 +5,10 @@
 4.1.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Fix principal and group objects registered in ZCML or directly with
+  the principalregistry being invalid under Python 2 (having byte
+  strings for ``id`` instead of text strings).
+  See https://github.com/zopefoundation/zope.principalregistry/issues/7
 
 
 4.1.0 (2017-09-04)
