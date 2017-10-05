@@ -10,7 +10,7 @@
         :target: https://pypi.org/project/zope.principalregistry/
         :alt: Supported Python versions
 
-.. image:: https://travis-ci.org/zopefoundation/zope.principalregistry.png?branch=master
+.. image:: https://travis-ci.org/zopefoundation/zope.principalregistry.svg?branch=master
         :target: https://travis-ci.org/zopefoundation/zope.principalregistry
 
 .. image:: https://coveralls.io/repos/github/zopefoundation/zope.principalregistry/badge.svg?branch=master
