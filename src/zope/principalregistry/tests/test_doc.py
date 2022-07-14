@@ -14,14 +14,17 @@
 """Tests for the principal registry ZCML directives
 """
 from __future__ import print_function
+
 import doctest
 import re
 import unittest
+
 from zope.component.testing import setUp as setUpComponent
 from zope.component.testing import tearDown as tearDownComponent
 from zope.configuration import xmlconfig
 from zope.password.testing import setUpPasswordManagers
 from zope.testing import renormalizing
+
 
 checker = renormalizing.RENormalizing([
     # Python 3 unicode removed the "u".
@@ -29,24 +32,28 @@ checker = renormalizing.RENormalizing([
      r"\1"),
     (re.compile('u(".*?")'),
      r"\1"),
-    ])
+])
 
 
 def setUp(test=None):
     setUpComponent()
     setUpPasswordManagers()
 
+
 def tearDown(test=None):
     tearDownComponent()
+
 
 def zcml(s):
     import zope.principalregistry
     context = xmlconfig.file('meta.zcml', zope.principalregistry)
     xmlconfig.string(s, context)
 
+
 def reset():
     tearDown()
     setUp()
+
 
 def test_suite():
     return unittest.TestSuite((

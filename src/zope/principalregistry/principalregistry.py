@@ -13,25 +13,24 @@
 ##############################################################################
 """Global Authentication Utility or Principal Registry
 """
+import zope.security.management
+from zope.authentication.interfaces import IAuthenticatedGroup
+from zope.authentication.interfaces import IAuthentication
+from zope.authentication.interfaces import IEveryoneGroup
+from zope.authentication.interfaces import ILoginPassword
+from zope.authentication.interfaces import ILogout
+from zope.authentication.interfaces import IUnauthenticatedGroup
+from zope.authentication.interfaces import IUnauthenticatedPrincipal
+from zope.authentication.interfaces import PrincipalLookupError
 from zope.component import getUtility
 from zope.interface import implementer
-import zope.security.management
-from zope.security.interfaces import IGroupAwarePrincipal
 from zope.password.interfaces import IPasswordManager
+from zope.security.interfaces import IGroupAwarePrincipal
 
-from zope.authentication.interfaces import (
-    IAuthentication,
-    PrincipalLookupError,
-    ILoginPassword,
-    ILogout,
-    IUnauthenticatedPrincipal,
-    IUnauthenticatedGroup,
-    IAuthenticatedGroup,
-    IEveryoneGroup,
-    )
 
 def _as_text(s):
     return s.decode('utf-8') if isinstance(s, bytes) else s
+
 
 class DuplicateLogin(Exception):
     pass
@@ -44,7 +43,8 @@ class DuplicateId(Exception):
 @implementer(IAuthentication, ILogout)
 class PrincipalRegistry(object):
     """
-    An in-memory implementation of :class:`zope.authentication.interfaces.IAuthentication`
+    An in-memory implementation of
+    :class:`zope.authentication.interfaces.IAuthentication`
     and :class:`zope.authentication.interfaces.ILogout`.
     """
 
@@ -120,8 +120,14 @@ class PrincipalRegistry(object):
         self.__principalsById = {}
         self.__principalsByLogin = {}
 
-    def definePrincipal(self, principal, title, description=u'',
-                        login=u'', password=b'', passwordManagerName='Plain Text'):
+    def definePrincipal(
+            self,
+            principal,
+            title,
+            description=u'',
+            login=u'',
+            password=b'',
+            passwordManagerName='Plain Text'):
         id = _as_text(principal)
         title = _as_text(title)
         description = _as_text(description)
@@ -154,6 +160,7 @@ class PrincipalRegistry(object):
         self.__defaultid = None
         self.__defaultObject = None
 
+
 #: The global registry that the ZCML directives will
 #: modify.
 principalRegistry = PrincipalRegistry()
@@ -162,11 +169,12 @@ principalRegistry = PrincipalRegistry()
 # simpler.
 try:
     from zope.testing.cleanup import addCleanUp
-except ImportError: # pragma: no cover
+except ImportError:  # pragma: no cover
     pass
 else:
     addCleanUp(principalRegistry._clear)
     del addCleanUp
+
 
 class PrincipalBase(object):
 
@@ -178,15 +186,18 @@ class PrincipalBase(object):
         self.description = _as_text(description)
         self.groups = []
 
+
 class Group(PrincipalBase):
 
     def getLogin(self):
-        return u'' # to make registry search happy
+        return u''  # to make registry search happy
+
 
 @implementer(IGroupAwarePrincipal)
 class Principal(PrincipalBase):
     """
-    The default implementation of :class:`zope.security.interfaces.IGroupAwarePrincipal`
+    The default implementation of
+    :class:`zope.security.interfaces.IGroupAwarePrincipal`
     that :class:`PrincipalRegistry` will create.
     """
 
@@ -210,12 +221,12 @@ class Principal(PrincipalBase):
 
 @implementer(IUnauthenticatedPrincipal)
 class UnauthenticatedPrincipal(PrincipalBase):
-    """An implementation of :class:`zope.authentication.interfaces.IUnauthenticatedPrincipal`."""
+    """An implementation of :class:`zope.authentication.interfaces.IUnauthenticatedPrincipal`."""  # noqa: E501 line too long
 
 
 fallback_unauthenticated_principal = (
     UnauthenticatedPrincipal(
-        __name__+'.fallback_unauthenticated_principal',
+        __name__ + '.fallback_unauthenticated_principal',
         'Fallback unauthenticated principal',
         'The default unauthenticated principal. Used as a fallback to '
         'allow challenging for a user even if the IAuthentication returned '
@@ -224,12 +235,14 @@ fallback_unauthenticated_principal = (
 
 @implementer(IUnauthenticatedGroup)
 class UnauthenticatedGroup(Group):
-    """An implementation of :class:`zope.authentication.interfaces.IUnauthenticatedGroup`."""
+    """An implementation of :class:`zope.authentication.interfaces.IUnauthenticatedGroup`."""  # noqa: E501 line too long
+
 
 @implementer(IAuthenticatedGroup)
 class AuthenticatedGroup(Group):
-    """An implementation of :class:`zope.authentication.interfaces.IAuthenticatedGroup`."""
+    """An implementation of :class:`zope.authentication.interfaces.IAuthenticatedGroup`."""  # noqa: E501 line too long
+
 
 @implementer(IEveryoneGroup)
 class EverybodyGroup(Group):
-    """An implementation of :class:`zope.authentication.interfaces.IEverybodyGroup`."""
+    """An implementation of :class:`zope.authentication.interfaces.IEverybodyGroup`."""  # noqa: E501 line too long

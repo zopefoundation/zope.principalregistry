@@ -14,7 +14,9 @@
 """Schemas for directives that define principals and groups
 """
 from zope.interface import Interface
-from zope.schema import Id, TextLine
+from zope.schema import Id
+from zope.schema import TextLine
+
 
 class TextId(Id):
     """
@@ -24,7 +26,8 @@ class TextId(Id):
     the text type.
     """
 
-    _type = str if str is not bytes else unicode
+    _type = str if str is not bytes else unicode  # PY2 # noqa: F821 undefined
+
 
 class IBasePrincipalDirective(Interface):
     """Base interface for principal definition directives."""
@@ -43,6 +46,7 @@ class IBasePrincipalDirective(Interface):
         title=u"Title",
         description=u"Provides a description for the object.",
         required=False)
+
 
 class IDefinePrincipalDirective(IBasePrincipalDirective):
     """Define a new principal."""
@@ -64,14 +68,18 @@ class IDefinePrincipalDirective(IBasePrincipalDirective):
         default=u"Plain Text"
     )
 
+
 class IDefineUnauthenticatedPrincipalDirective(IBasePrincipalDirective):
     """Define a new unauthenticated principal."""
+
 
 class IDefineUnauthenticatedGroupDirective(IBasePrincipalDirective):
     """Define the unauthenticated group."""
 
+
 class IDefineAuthenticatedGroupDirective(IBasePrincipalDirective):
     """Define the authenticated group."""
+
 
 class IDefineEverybodyGroupDirective(IBasePrincipalDirective):
     """Define the everybody group."""
