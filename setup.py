@@ -47,7 +47,7 @@ TESTS_REQUIRE = [
 ]
 
 setup(name='zope.principalregistry',
-      version='4.3.dev0',
+      version='4.3',
       author='Zope Foundation and Contributors',
       author_email='zope-dev@zope.org',
       description='Global principal registry component for Zope3',
