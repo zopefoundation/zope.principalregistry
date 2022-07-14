@@ -13,10 +13,10 @@
 ##############################################################################
 """Directives for defining principals and groups
 """
-from zope import component
-from zope.component.zcml import utility
 from zope.authentication import interfaces
+from zope.component.zcml import utility
 
+from zope import component
 from zope.principalregistry import principalregistry
 
 
@@ -28,11 +28,10 @@ def _principal():
     if group is not None:
         _everybodyGroup(group.id)
 
+
 def principal(_context, id, title, login,
               password, description='', password_manager="Plain Text"):
-    """
-    Implementation of :class:`zope.principalregistry.metadirectives.IDefinePrincipalDirective`.
-    """
+    """Implementation of :class:`zope.principalregistry.metadirectives.IDefinePrincipalDirective`."""  # noqa: E501 line too long
     # Make sure password is encoded to bytes, which is required by the
     # principal registry.
     password = password.encode('utf-8')
@@ -51,10 +50,9 @@ def _unauthenticatedPrincipal():
     if group is not None:
         _everybodyGroup(group.id)
 
+
 def unauthenticatedPrincipal(_context, id, title, description=''):
-    """
-    Implementation of :class:`zope.principalregistry.metadirectives.IDefineUnauthenticatedPrincipalDirective`.
-    """
+    """Implementation of :class:`zope.principalregistry.metadirectives.IDefineUnauthenticatedPrincipalDirective`."""  # noqa: E501 line too long
     principal = principalregistry.UnauthenticatedPrincipal(
         id, title, description)
     _context.action(
@@ -68,15 +66,15 @@ def unauthenticatedPrincipal(_context, id, title, description=''):
         args=(),
     )
 
+
 def _unauthenticatedGroup(group):
     p = principalregistry.principalRegistry.unauthenticatedPrincipal()
     if p is not None:
         p.groups.append(group)
 
+
 def unauthenticatedGroup(_context, id, title, description=''):
-    """
-    Implementation of :class:`zope.principalregistry.metadirectives.IDefineUnauthenticatedGroupDirective`.
-    """
+    """Implementation of :class:`zope.principalregistry.metadirectives.IDefineUnauthenticatedGroupDirective`."""  # noqa: E501 line too long
     principal = principalregistry.UnauthenticatedGroup(
         id, title, description)
     utility(_context, interfaces.IUnauthenticatedGroup, principal)
@@ -91,6 +89,7 @@ def unauthenticatedGroup(_context, id, title, description=''):
         args=(principal, ),
     )
 
+
 def _authenticatedGroup(group):
     for p in principalregistry.principalRegistry.getPrincipals(''):
         if not isinstance(p, principalregistry.Principal):
@@ -98,10 +97,9 @@ def _authenticatedGroup(group):
         if group not in p.groups:
             p.groups.append(group)
 
+
 def authenticatedGroup(_context, id, title, description=''):
-    """
-    Implementation of :class:`zope.principalregistry.metadirectives.IDefineAuthenticatedGroupDirective`.
-    """
+    """Implementation of :class:`zope.principalregistry.metadirectives.IDefineAuthenticatedGroupDirective`."""  # noqa: E501 line too long
     principal = principalregistry.AuthenticatedGroup(
         id, title, description)
     utility(_context, interfaces.IAuthenticatedGroup, principal)
@@ -116,6 +114,7 @@ def authenticatedGroup(_context, id, title, description=''):
         args=(principal, ),
     )
 
+
 def _everybodyGroup(group):
     for p in principalregistry.principalRegistry.getPrincipals(''):
         if not isinstance(p, principalregistry.Principal):
@@ -126,10 +125,9 @@ def _everybodyGroup(group):
     if p is not None:
         p.groups.append(group)
 
+
 def everybodyGroup(_context, id, title, description=''):
-    """
-    Implementation of :class:`zope.principalregistry.metadirectives.IDefineEverybodyGroupDirective`.
-    """
+    """Implementation of :class:`zope.principalregistry.metadirectives.IDefineEverybodyGroupDirective`."""  # noqa: E501 line too long
     principal = principalregistry.EverybodyGroup(
         id, title, description)
     utility(_context, interfaces.IEveryoneGroup, principal)
@@ -137,7 +135,7 @@ def everybodyGroup(_context, id, title, description=''):
         discriminator=None,
         callable=_everybodyGroup,
         args=(principal.id, ),
-        )
+    )
     _context.action(
         discriminator=None,
         callable=principalregistry.principalRegistry.registerGroup,

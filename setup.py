@@ -14,16 +14,21 @@
 """Setup for zope.principalregistry package
 """
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages
+from setuptools import setup
+
 
 def read(*rnames):
     with open(os.path.join(os.path.dirname(__file__), *rnames)) as f:
         return f.read()
 
+
 def alltests():
     import os
     import sys
     import unittest
+
     # use the zope.testrunner machinery to find all the
     # test suites we've put under ourselves
     import zope.testrunner.find
@@ -35,13 +40,14 @@ def alltests():
     suites = list(zope.testrunner.find.find_suites(options))
     return unittest.TestSuite(suites)
 
+
 TESTS_REQUIRE = [
     'zope.testing',
     'zope.testrunner',
 ]
 
 setup(name='zope.principalregistry',
-      version='4.2.1.dev0',
+      version='4.3.dev0',
       author='Zope Foundation and Contributors',
       author_email='zope-dev@zope.org',
       description='Global principal registry component for Zope3',
@@ -60,9 +66,12 @@ setup(name='zope.principalregistry',
           'Programming Language :: Python :: 2',
           'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.4',
           'Programming Language :: Python :: 3.5',
           'Programming Language :: Python :: 3.6',
+          'Programming Language :: Python :: 3.7',
+          'Programming Language :: Python :: 3.8',
+          'Programming Language :: Python :: 3.9',
+          'Programming Language :: Python :: 3.10',
           'Programming Language :: Python :: Implementation :: CPython',
           'Programming Language :: Python :: Implementation :: PyPy',
           'Natural Language :: English',
@@ -94,4 +103,4 @@ setup(name='zope.principalregistry',
       test_suite='__main__.alltests',
       include_package_data=True,
       zip_safe=False,
-)
+      )

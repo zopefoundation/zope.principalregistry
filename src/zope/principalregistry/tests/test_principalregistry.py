@@ -14,12 +14,14 @@
 """Tests for the principal registry
 """
 import unittest
+
 from zope.authentication.interfaces import PrincipalLookupError
 from zope.authentication.loginpassword import LoginPassword
 from zope.password.testing import setUpPasswordManagers
 
+from zope.principalregistry.principalregistry import DuplicateId
+from zope.principalregistry.principalregistry import DuplicateLogin
 from zope.principalregistry.principalregistry import PrincipalRegistry
-from zope.principalregistry.principalregistry import DuplicateLogin, DuplicateId
 
 
 class Request(LoginPassword):
@@ -28,10 +30,10 @@ class Request(LoginPassword):
 
     def __init__(self, lpw):
         if lpw is not None:
-            l, p = lpw
+            login, password = lpw
         else:
-            l = p = None
-        super(Request, self).__init__(l, p)
+            login = password = None
+        super(Request, self).__init__(login, password)
 
     def needLogin(self, realm):
         self.challenge = 'basic realm="%s"' % realm
@@ -98,9 +100,9 @@ class Test(unittest.TestCase):
         self.assertFalse(tim.validate('12'))
 
     def _validatePrincipal(self, principal):
-        from zope.security.interfaces import IPrincipal
         from zope.interface.verify import verifyObject
         from zope.schema import getValidationErrors
+        from zope.security.interfaces import IPrincipal
 
         self.assertTrue(verifyObject(IPrincipal, principal))
 
@@ -140,9 +142,8 @@ class Test(unittest.TestCase):
                           "1", "tim")
         self.reg.defineDefaultPrincipal("everybody", "Default Principal")
         self.assertEqual(self.reg.unauthenticatedPrincipal().id, "everybody")
-        anybody = self.reg.defineDefaultPrincipal("anybody",
-                                                  "Default Principal",
-                                                  "This is the default headmaster")
+        anybody = self.reg.defineDefaultPrincipal(
+            "anybody", "Default Principal", "This is the default headmaster")
         self.assertIs(anybody, self.reg.unauthenticatedPrincipal())
         self.assertEqual(anybody.id, "anybody")
         self.assertRaises(PrincipalLookupError,
@@ -200,7 +201,8 @@ class TestGroup(unittest.TestCase):
 class TestUnauthenticatedGroup(TestGroup):
 
     def _getTargetClass(self):
-        from zope.principalregistry.principalregistry import UnauthenticatedGroup
+        from zope.principalregistry.principalregistry import \
+            UnauthenticatedGroup
         return UnauthenticatedGroup
 
     def _getTargetInterface(self):
