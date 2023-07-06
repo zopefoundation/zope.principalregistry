@@ -26,25 +26,25 @@ class TextId(Id):
     the text type.
     """
 
-    _type = str if str is not bytes else unicode  # PY2 # noqa: F821 undefined
+    _type = str
 
 
 class IBasePrincipalDirective(Interface):
     """Base interface for principal definition directives."""
 
     id = TextId(
-        title=u"Id",
-        description=u"Id as which this object will be known and used.",
+        title="Id",
+        description="Id as which this object will be known and used.",
         required=True)
 
     title = TextLine(
-        title=u"Title",
-        description=u"Provides a title for the object.",
+        title="Title",
+        description="Provides a title for the object.",
         required=True)
 
     description = TextLine(
-        title=u"Title",
-        description=u"Provides a description for the object.",
+        title="Title",
+        description="Provides a description for the object.",
         required=False)
 
 
@@ -52,20 +52,20 @@ class IDefinePrincipalDirective(IBasePrincipalDirective):
     """Define a new principal."""
 
     login = TextLine(
-        title=u"Username/Login",
-        description=u"Specifies the Principal's Username/Login.",
+        title="Username/Login",
+        description="Specifies the Principal's Username/Login.",
         required=True)
 
     password = TextLine(
-        title=u"Password",
-        description=u"Specifies the Principal's Password.",
+        title="Password",
+        description="Specifies the Principal's Password.",
         required=True)
 
     password_manager = TextLine(
-        title=u"Password Manager Name",
-        description=(u"Name of the password manager will be used"
+        title="Password Manager Name",
+        description=("Name of the password manager will be used"
                      " for encode/check the password"),
-        default=u"Plain Text"
+        default="Plain Text"
     )
 
 
