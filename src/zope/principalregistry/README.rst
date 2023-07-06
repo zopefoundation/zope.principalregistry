@@ -33,7 +33,7 @@ There are principals that can log in:
     >>> from zope.principalregistry.principalregistry import principalRegistry
     >>> [p] = principalRegistry.getPrincipals('')
     >>> p.id, p.title, p.description, p.getLogin(), p.validate('123')
-    ('zope.manager', u'Manager', u'System Manager', u'admin', True)
+    ('zope.manager', 'Manager', 'System Manager', 'admin', True)
 
 We can verify that it conforms to the
 :class:`zope.security.interfaces.IPrincipal` interface:
@@ -77,7 +77,7 @@ There is the unauthenticated principal:
 
     >>> p = principalRegistry.unauthenticatedPrincipal()
     >>> p.id, p.title, p.description
-    ('zope.unknown', u'Anonymous user', u"A person we don't know")
+    ('zope.unknown', 'Anonymous user', "A person we don't know")
 
 It implements :class:`zope.authentication.interfaces.IUnauthenticatedPrincipal`:
 
@@ -96,7 +96,7 @@ same principal.
     >>> from zope import component
     >>> p = component.getUtility(interfaces.IUnauthenticatedPrincipal)
     >>> p.id, p.title, p.description
-    ('zope.unknown', u'Anonymous user', u"A person we don't know")
+    ('zope.unknown', 'Anonymous user', "A person we don't know")
 
 The unauthenticated group
 =========================
@@ -122,7 +122,7 @@ IUnauthenticatedGroup:
 
     >>> g = component.getUtility(interfaces.IUnauthenticatedGroup)
     >>> g.id, g.title, g.description
-    ('zope.unknowngroup', u'Anonymous users', u"People we don't know")
+    ('zope.unknowngroup', 'Anonymous users', "People we don't know")
 
 It implements :class:`zope.authentication.interfaces.IUnauthenticatedGroup`:
 
@@ -164,7 +164,7 @@ group, it will likewise have the group added to it:
 
     >>> g = component.getUtility(interfaces.IUnauthenticatedGroup)
     >>> g.id, g.title, g.description
-    ('zope.unknowngroup2', u'Anonymous users', u"People we don't know")
+    ('zope.unknowngroup2', 'Anonymous users', "People we don't know")
     >>> p = principalRegistry.unauthenticatedPrincipal()
     >>> p.id, g.id in p.groups
     ('zope.unknown2', True)
@@ -221,7 +221,7 @@ It defines an IAuthenticatedGroup utility:
 
     >>> g = component.getUtility(interfaces.IAuthenticatedGroup)
     >>> g.id, g.title, g.description
-    ('zope.authenticated', u'Authenticated users', u'People we know')
+    ('zope.authenticated', 'Authenticated users', 'People we know')
 
 It implements :class:`zope.authentication.interfaces.IUnauthenticatedGroup`:
 
@@ -292,7 +292,7 @@ The everybodyGroup directive defines an IEveryoneGroup utility:
 
     >>> g = component.getUtility(interfaces.IEveryoneGroup)
     >>> g.id, g.title, g.description
-    ('zope.everybody', u'Everybody', u'All People')
+    ('zope.everybody', 'Everybody', 'All People')
 
 It implements :class:`zope.authentication.interfaces.IEveryoneGroup`:
 
@@ -354,6 +354,6 @@ from the getPrincipal method of the registry.
     >>> import zope.security.management
     >>> import zope.principalregistry.principalregistry
     >>> auth = zope.principalregistry.principalregistry.PrincipalRegistry()
-    >>> system_user = auth.getPrincipal(u'zope.security.management.system_user')
+    >>> system_user = auth.getPrincipal('zope.security.management.system_user')
     >>> system_user is zope.security.management.system_user
     True

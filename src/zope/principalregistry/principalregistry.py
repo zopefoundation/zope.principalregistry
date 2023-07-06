@@ -41,7 +41,7 @@ class DuplicateId(Exception):
 
 
 @implementer(IAuthentication, ILogout)
-class PrincipalRegistry(object):
+class PrincipalRegistry:
     """
     An in-memory implementation of
     :class:`zope.authentication.interfaces.IAuthentication`
@@ -67,7 +67,7 @@ class PrincipalRegistry(object):
     __defaultid = None
     __defaultObject = None
 
-    def defineDefaultPrincipal(self, id, title, description=u'',
+    def defineDefaultPrincipal(self, id, title, description='',
                                principal=None):
         id = _as_text(id)
         title = _as_text(title)
@@ -124,8 +124,8 @@ class PrincipalRegistry(object):
             self,
             principal,
             title,
-            description=u'',
-            login=u'',
+            description='',
+            login='',
             password=b'',
             passwordManagerName='Plain Text'):
         id = _as_text(principal)
@@ -176,7 +176,7 @@ else:
     del addCleanUp
 
 
-class PrincipalBase(object):
+class PrincipalBase:
 
     __name__ = __parent__ = None
 
@@ -190,7 +190,7 @@ class PrincipalBase(object):
 class Group(PrincipalBase):
 
     def getLogin(self):
-        return u''  # to make registry search happy
+        return ''  # to make registry search happy
 
 
 @implementer(IGroupAwarePrincipal)
@@ -203,7 +203,7 @@ class Principal(PrincipalBase):
 
     def __init__(self, id, title, description, login,
                  pw, pwManagerName="Plain Text"):
-        super(Principal, self).__init__(id, title, description)
+        super().__init__(id, title, description)
         self.__login = _as_text(login)
         self.__pwManagerName = pwManagerName
         self.__pw = pw

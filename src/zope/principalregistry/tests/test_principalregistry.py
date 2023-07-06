@@ -33,7 +33,7 @@ class Request(LoginPassword):
             login, password = lpw
         else:
             login = password = None
-        super(Request, self).__init__(login, password)
+        super().__init__(login, password)
 
     def needLogin(self, realm):
         self.challenge = 'basic realm="%s"' % realm
@@ -162,7 +162,7 @@ class Test(unittest.TestCase):
         self.assertIsNone(self.reg.logout(None))
 
     def test_duplicate_group(self):
-        class Group(object):
+        class Group:
             id = "id"
 
         self.reg.registerGroup(Group)
@@ -183,7 +183,7 @@ class TestGroup(unittest.TestCase):
 
     def test_login(self):
         cls = self._getTargetClass()
-        self.assertEqual(u'', cls("id", "title", "desc").getLogin())
+        self.assertEqual('', cls("id", "title", "desc").getLogin())
 
     def test_valid(self):
         from zope.interface.verify import verifyObject
