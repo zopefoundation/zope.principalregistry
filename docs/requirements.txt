@@ -1,0 +1,3 @@
+Sphinx
+zope.principalregistry
+repoze.sphinx.autointerface
