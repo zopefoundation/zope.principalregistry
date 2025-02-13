@@ -169,7 +169,7 @@ principalRegistry = PrincipalRegistry()
 # simpler.
 try:
     from zope.testing.cleanup import addCleanUp
-except ImportError:  # pragma: no cover
+except ModuleNotFoundError:  # pragma: no cover
     pass
 else:
     addCleanUp(principalRegistry._clear)

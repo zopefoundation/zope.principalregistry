@@ -81,7 +81,7 @@ class Test(unittest.TestCase):
     def testSearch(self):
         r = self.reg.getPrincipals('J')
         self.assertEqual(len(r), 1)
-        self.assertTrue(r[0] is self.reg.getPrincipal('2'))
+        self.assertIs(r[0], self.reg.getPrincipal('2'))
 
     def testByLogin(self):
         tim = self.reg.getPrincipalByLogin('tim')
