@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # zope.app.apidoc documentation build configuration file, created by
 # sphinx-quickstart on Tue Sep 13 15:00:43 2016.
@@ -21,7 +20,10 @@
 # sys.path.insert(0, os.path.abspath('.'))
 import os
 import sys
+
 import pkg_resources
+
+
 sys.path.append(os.path.abspath('../src'))
 rqmt = pkg_resources.require('zope.principalregistry')[0]
 
@@ -49,7 +51,7 @@ templates_path = ['_templates']
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = {'.rst': 'restructuredtext'}
 
 # The encoding of source files.
 #
@@ -59,9 +61,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'zope.principalregistry'
-copyright = u'2017, Zope Community'
-author = u'Zope Community'
+project = 'zope.principalregistry'
+copyright = '2017-2025, Zope Community'
+author = 'Zope Community'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -77,7 +79,7 @@ release = rqmt.version
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -156,15 +158,15 @@ html_theme = 'default'
 # html_logo = None
 
 # The name of an image file (relative to this directory) to use as a favicon of
-# the docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
-# pixels large.
+# the docs.  This file should be a Windows icon file (.ico) being 16x16 or
+# 32x32 pixels large.
 #
 # html_favicon = None
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
@@ -249,29 +251,32 @@ htmlhelp_basename = 'zopeprincipalregistry'
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
-     # The paper size ('letterpaper' or 'a4paper').
-     #
-     # 'papersize': 'letterpaper',
+    # The paper size ('letterpaper' or 'a4paper').
+    #
+    # 'papersize': 'letterpaper',
 
-     # The font size ('10pt', '11pt' or '12pt').
-     #
-     # 'pointsize': '10pt',
+    # The font size ('10pt', '11pt' or '12pt').
+    #
+    # 'pointsize': '10pt',
 
-     # Additional stuff for the LaTeX preamble.
-     #
-     # 'preamble': '',
+    # Additional stuff for the LaTeX preamble.
+    #
+    # 'preamble': '',
 
-     # Latex figure (float) alignment
-     #
-     # 'figure_align': 'htbp',
+    # Latex figure (float) alignment
+    #
+    # 'figure_align': 'htbp',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'zopeprincipalregistry.tex', u'zope.principalregistry Documentation',
-     u'Zope Community', 'manual'),
+    (master_doc,
+     'zopeprincipalregistry.tex',
+     'zope.principalregistry Documentation',
+     'Zope Community',
+     'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -312,9 +317,11 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'zopeprincipalregistry', u'zope.principalregistry Documentation',
-     [author], 1)
-]
+    (master_doc,
+     'zopeprincipalregistry',
+     'zope.principalregistry Documentation',
+     [author],
+     1)]
 
 # If true, show URL addresses after external links.
 #
@@ -327,8 +334,12 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'zopeprincipalregistry', u'zope.principalregistry Documentation',
-     author, 'zopeprincipalregistry', 'One line description of project.',
+    (master_doc,
+     'zopeprincipalregistry',
+     'zope.principalregistry Documentation',
+     author,
+     'zopeprincipalregistry',
+     'One line description of project.',
      'Miscellaneous'),
 ]
 
@@ -351,17 +362,30 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
-    'https://docs.python.org/': None,
-    'https://zopepassword.readthedocs.io/en/latest/': None,
-    'https://zopecomponent.readthedocs.io/en/latest/': None,
-    'https://zopesecurity.readthedocs.io/en/latest/': None,
-    'https://zopeauthentication.readthedocs.io/en/latest/': None,
+    'python': (
+        'https://docs.python.org/',
+        None),
+    'zopepassword': (
+        'https://zopepassword.readthedocs.io/en/latest/',
+        None),
+    'zopecomponent': (
+        'https://zopecomponent.readthedocs.io/en/latest/',
+        None),
+    'zopesecurity': (
+        'https://zopesecurity.readthedocs.io/en/latest/',
+        None),
+    'zopeauthentication': (
+        'https://zopeauthentication.readthedocs.io/en/latest/',
+        None),
 }
 
-extlinks = {'issue': ('https://github.com/zopefoundation/zope.principalregistry/issues/%s',
-                      'issue #'),
-            'pr': ('https://github.com/zopefoundation/zope.principalregistry/pull/%s',
-                   'pull request #')}
+extlinks = {
+    'issue': (
+        'https://github.com/zopefoundation/zope.principalregistry/issues/%s',
+        'issue #'),
+    'pr': (
+        'https://github.com/zopefoundation/zope.principalregistry/pull/%s',
+        'pull request #')}
 
 autodoc_default_flags = [
     'members',
