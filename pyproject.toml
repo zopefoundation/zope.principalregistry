@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "zope.principalregistry"
-version = "6.1.dev0"
+version = "6.1"
 description = "Global principal registry component for Zope3"
 license = "ZPL-2.1"
 classifiers = [
